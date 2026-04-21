@@ -188,7 +188,15 @@ public class GuestProgramLauncherComponent extends EnvironmentComponent {
 
         // 根据架构生成启动命令
         String wp = rootFS.getWinePath();
-        if (wp.startsWith("/")) wp = wp.substring(1);
+        android.util.Log.d("Winlator", "Original winePath from rootFS: '" + wp + "'");
+        
+        if (wp.startsWith("/")) {
+            android.util.Log.w("Winlator", "winePath starts with '/', removing it");
+            wp = wp.substring(1);
+        }
+        
+        android.util.Log.d("Winlator", "Processed winePath: '" + wp + "'");
+        android.util.Log.d("Winlator", "Root directory: '" + rootDir + "'");
         
         String command;
         if (!isArm64EC) {

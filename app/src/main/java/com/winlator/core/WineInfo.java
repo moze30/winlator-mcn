@@ -121,7 +121,12 @@ public class WineInfo implements Parcelable {
             File installDir = ContentsManager.getInstallDir(context, profile);
             if (installDir.exists()) {
                 String arch = identifier.contains("arm64ec") ? "arm64ec" : "x86_64";
-                String relPath = RootFS.find(context).getRootDir().getPath() + "/opt/contents/wine/" + profile.verName + "-" + profile.verCode;
+                // 使用相对于 rootfs 的路径
+                String rootfsPath = RootFS.find(context).getRootDir().getPath();
+                String absPath = installDir.getAbsolutePath();
+                String relPath = absPath.startsWith(rootfsPath) ? absPath.substring(rootfsPath.length()) : absPath;
+                if (relPath.startsWith("/")) relPath = relPath.substring(1);
+                android.util.Log.d("Winlator", "WCP Wine path - absolute: " + absPath + ", relative: " + relPath);
                 return new WineInfo(profile.verName, null, arch, relPath);
             }
         }
