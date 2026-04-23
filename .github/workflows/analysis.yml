@@ -39,11 +39,3 @@ jobs:
         shell: bash
         run: ls -R ./app/build/outputs/
 
-      - name: Upload
-        uses: actions/upload-artifact@v7
-        with:
-          name: Analysis
-          path: |
-            ./app/build/outputs/apk/debug/
-            ./app/build/reports/
-          if-no-files-found: error
